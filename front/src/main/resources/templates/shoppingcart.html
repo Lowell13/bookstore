@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart</title>
+</head>
+<body>
+<h2>Panier :</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Nom du livre</th>
+        <th>Auteur</th>
+        <th>Date de parution</th>
+        <th>Prix</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="parameter, iterStat : ${bookList}" th:id="${iterStat.index}">
+        <td th:text="${parameter.name}"></td>
+        <td th:text="${parameter.author.name}"></td>
+        <td th:text="${parameter.releaseDate}"></td>
+        <td th:text="${parameter.price}"></td>
+        <td ><a th:href="@{'/cart/add/' + ${parameter.id}}"> Ajouter au panier</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<p>Total du panier : <span th:text="${price}"></span></p>
+<a th:href="@{/}">Retour à la liste des livres</a>
+</body>
+</html>
