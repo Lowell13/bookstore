@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 @Service
 public class ApiRequestService {
 
-    private final String urlApi = "http://localhost:3003/";
+    private final String urlApi = "http://localhost:3010/";
 
     public List<Book> getAllBooks() {
         HttpClient client = HttpClient.newHttpClient();
