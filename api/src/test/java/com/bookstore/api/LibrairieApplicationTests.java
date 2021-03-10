@@ -18,17 +18,10 @@ import static org.mockito.Mockito.*;
 class LibrairieApplicationTests {
 
     interface RemoteService {
-
         int process(int i);
     }
 
     private RemoteService service;
-
-    @Before
-    public void setUp() {
-        // Isn't used for I don't know the fuck why....
-        service = mock(RemoteService.class);
-    }
 
     @Test
     void contextLoads() {
@@ -59,54 +52,54 @@ class LibrairieApplicationTests {
         verify(service, times(5)).process(any(Integer.class));
     }
 
-    /*@Test
-    public void whenBulkheadIsUsed_thenItWorksAsExpected() throws InterruptedException {
-        BulkheadConfig config = BulkheadConfig.custom().maxConcurrentCalls(1).build();
-        BulkheadRegistry registry = BulkheadRegistry.of(config);
-        Bulkhead bulkhead = registry.bulkhead("my");
-        Function<Integer, Integer> decorated = Bulkhead.decorateFunction(bulkhead, service::process);
-
-        Future<?> taskInProgress = callAndBlock(decorated);
-        try {
-            assertThat(bulkhead.isCallPermitted()).isFalse();
-        } finally {
-            taskInProgress.cancel(true);
-        }
-    }*/
-
-    private Future<?> callAndBlock(Function<Integer, Integer> decoratedService) throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(1);
-        when(service.process(anyInt())).thenAnswer(invocation -> {
-            latch.countDown();
-            Thread.currentThread().join();
-            return null;
-        });
-
-        ForkJoinTask<?> result = ForkJoinPool.commonPool().submit(() -> {
-            decoratedService.apply(1);
-        });
-        latch.await();
-        return result;
-    }
-
-    /*@Test
-    public void whenRetryIsUsed_thenItWorksAsExpected() {
-        RetryConfig config = RetryConfig.custom().maxAttempts(2).build();
-        RetryRegistry registry = RetryRegistry.of(config);
-        Retry retry = registry.retry("my");
-        Function<Integer, Void> decorated = Retry.decorateFunction(retry, (Integer s) -> {
-            service.process(s);
-            return null;
-        });
-
-        when(service.process(anyInt())).thenThrow(new RuntimeException());
-        try {
-            decorated.apply(1);
-            fail("Expected an exception to be thrown if all retries failed");
-        } catch (Exception e) {
-            verify(service, times(2)).process(any(Integer.class));
-        }
-    }*/
+//    @Test
+//    public void whenBulkheadIsUsed_thenItWorksAsExpected() throws InterruptedException {
+//        BulkheadConfig config = BulkheadConfig.custom().maxConcurrentCalls(1).build();
+//        BulkheadRegistry registry = BulkheadRegistry.of(config);
+//        Bulkhead bulkhead = registry.bulkhead("my");
+//        Function<Integer, Integer> decorated = Bulkhead.decorateFunction(bulkhead, service::process);
+//
+//        Future<?> taskInProgress = callAndBlock(decorated);
+//        try {
+//            assertThat(bulkhead.isCallPermitted()).isFalse();
+//        } finally {
+//            taskInProgress.cancel(true);
+//        }
+//    }
+//
+//    private Future<?> callAndBlock(Function<Integer, Integer> decoratedService) throws InterruptedException {
+//        CountDownLatch latch = new CountDownLatch(1);
+//        when(service.process(anyInt())).thenAnswer(invocation -> {
+//            latch.countDown();
+//            Thread.currentThread().join();
+//            return null;
+//        });
+//
+//        ForkJoinTask<?> result = ForkJoinPool.commonPool().submit(() -> {
+//            decoratedService.apply(1);
+//        });
+//        latch.await();
+//        return result;
+//    }
+//
+//    @Test
+//    public void whenRetryIsUsed_thenItWorksAsExpected() {
+//        RetryConfig config = RetryConfig.custom().maxAttempts(2).build();
+//        RetryRegistry registry = RetryRegistry.of(config);
+//        Retry retry = registry.retry("my");
+//        Function<Integer, Void> decorated = Retry.decorateFunction(retry, (Integer s) -> {
+//            service.process(s);
+//            return null;
+//        });
+//
+//        when(service.process(anyInt())).thenThrow(new RuntimeException());
+//        try {
+//            decorated.apply(1);
+//            fail("Expected an exception to be thrown if all retries failed");
+//        } catch (Exception e) {
+//            verify(service, times(2)).process(any(Integer.class));
+//        }
+//    }
 
     @SuppressWarnings({"unchecked"})
     @Test
