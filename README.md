@@ -5,7 +5,7 @@ Due to an in memory database, please do not forget to add content when you launc
 Insomnia. You can also add a method which autofill the DB at launch.
 Otherwise,you'll see nothing in the front.
 
-`API :`  
+`Front :`  
 Nothing special to say here. Front is doing the job, and I won't ask it more.
 
 `Tunnel :`  
