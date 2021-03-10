@@ -22,4 +22,14 @@ https://medium.com/an-idea/spring-boot-microservices-api-gateway-e9dbcd4bb754
 This project also implements some kind of circuit breaker with Resilience4J. Documentation can be found here :  
 https://resilience4j.readme.io/docs/circuitbreaker
 
+### Use this template to initialize the database with postman
+
+`{
+    "name": "Shift",
+    "releaseDate": "27/01/2021",
+    "author": { "name": "John Doe" },
+    "price": "6.89",
+    "stock": 10
+}`
+
 _More to be added soon ?_
